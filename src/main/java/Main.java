@@ -167,12 +167,9 @@ public class Main {
     }
 
     private static void updatePatient() {
-        System.out.print("Enter CNP of patient to update: ");
-        String cnp = scanner.nextLine();
-
-        Patient patient = service.getPatientByCNP(cnp);
+        Patient patient = selectPatientByName();
         if (patient == null) {
-            System.out.println("No patient found with CNP: " + cnp);
+            System.out.println("No patient selected.");
             return;
         }
 
@@ -220,21 +217,19 @@ public class Main {
     }
 
     private static void deletePatient() {
-        System.out.print("Enter CNP of patient to delete: ");
-        String cnp = scanner.nextLine();
-
-        Patient patient = service.getPatientByCNP(cnp);
+        Patient patient = selectPatientByName();
         if (patient == null) {
-            System.out.println("No patient found with CNP: " + cnp);
+            System.out.println("No patient selected.");
             return;
         }
+
 
         System.out.println("Are you sure you want to delete this patient? (y/n)");
         System.out.println(patient);
 
         String confirm = scanner.nextLine();
         if (confirm.equalsIgnoreCase("y")) {
-            service.deletePatient(cnp);
+            service.deletePatient(patient.getCNP());
             System.out.println("Patient deleted successfully!");
         } else {
             System.out.println("Deletion canceled.");
@@ -258,12 +253,15 @@ public class Main {
     }
 
     private static void viewPatientHistory() {
-        System.out.print("Enter patient CNP: ");
-        String cnp = scanner.nextLine();
+        Patient patient = selectPatientByName();
+        if (patient == null) {
+            System.out.println("No patient selected.");
+            return;
+        }
+        List<Consultation> history = service.getPatientHistory(patient.getCNP());
 
-        List<Consultation> history = service.getPatientHistory(cnp);
         if (history == null || history.isEmpty()) {
-            System.out.println("No consultation history found for patient with CNP: " + cnp);
+            System.out.println("No consultation history found for patient with CNP: " + patient.getCNP());
             return;
         }
 
@@ -327,12 +325,9 @@ public class Main {
     }
 
     private static void updateDoctor() {
-        System.out.print("Enter CNP of doctor to update: ");
-        String cnp = scanner.nextLine();
-
-        Doctor doctor = service.getDoctorByCNP(cnp);
+        Doctor doctor = selectDoctorByName();
         if (doctor == null) {
-            System.out.println("No doctor found with CNP: " + cnp);
+            System.out.println("No doctor selected.");
             return;
         }
 
@@ -374,12 +369,9 @@ public class Main {
     }
 
     private static void deleteDoctor() {
-        System.out.print("Enter CNP of doctor to delete: ");
-        String cnp = scanner.nextLine();
-
-        Doctor doctor = service.getDoctorByCNP(cnp);
+        Doctor doctor = selectDoctorByName();
         if (doctor == null) {
-            System.out.println("No doctor found with CNP: " + cnp);
+            System.out.println("No doctor selected.");
             return;
         }
 
@@ -388,7 +380,7 @@ public class Main {
 
         String confirm = scanner.nextLine();
         if (confirm.equalsIgnoreCase("y")) {
-            service.deleteDoctor(cnp);
+            service.deleteDoctor(doctor.getCNP());
             System.out.println("Doctor deleted successfully!");
         } else {
             System.out.println("Deletion canceled.");
@@ -397,51 +389,70 @@ public class Main {
 
     // Appointment operations
     private static void makeAppointment() {
-        System.out.println("\n----- Make Appointment -----");
+    System.out.println("\n----- Make Appointment -----");
 
-        System.out.print("Enter patient CNP: ");
-        String patientCNP = scanner.nextLine();
+    Patient patient = selectPatientByName();
+    if (patient == null) {
+        System.out.println("No patient selected.");
+        return;
+    }
 
-        Patient patient = service.getPatientByCNP(patientCNP);
-        if (patient == null) {
-            System.out.println("Patient not found. Please add the patient first.");
-            return;
-        }
+    if (patient == null) {
+        System.out.println("Patient not found. Please add the patient first.");
+        return;
+    }
 
-        System.out.print("Enter doctor CNP: ");
-        String doctorCNP = scanner.nextLine();
+    Doctor doctor = selectDoctorByName();
+    if (doctor == null) {
+        System.out.println("No doctor selected.");
+        return;
+    }
+    if (doctor == null) {
+        System.out.println("Doctor not found. Please add the doctor first.");
+        return;
+    }
 
-        Doctor doctor = service.getDoctorByCNP(doctorCNP);
-        if (doctor == null) {
-            System.out.println("Doctor not found. Please add the doctor first.");
-            return;
-        }
-
+    LocalDateTime dateTime = null;
+    while (true) {
         System.out.print("Enter appointment date and time (yyyy-MM-dd HH:mm): ");
         String dateTimeStr = scanner.nextLine();
-
         try {
-            LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, dateTimeFormatter);
-            Appointment appointment = service.makeAppointment(patientCNP, doctorCNP, dateTime);
-
-            if (appointment != null) {
-                System.out.println("Appointment created successfully: " + appointment);
-            } else {
-                System.out.println("Failed to create appointment. Doctor may not be available at this time.");
+            dateTime = LocalDateTime.parse(dateTimeStr, dateTimeFormatter);
+            if (dateTime.isBefore(LocalDateTime.now())) {
+                System.out.println("Appointment date and time must be in the future. Please try again.");
+                continue;
             }
-        } catch (DateTimeParseException e) {
+            break;
+        } catch (Exception e) {
             System.out.println("Invalid date format. Please use yyyy-MM-dd HH:mm format.");
         }
     }
 
+    try {
+        Appointment appointment = service.makeAppointment(patient.getCNP(), doctor.getCNP(), dateTime);
+        if (appointment != null) {
+            System.out.println("Appointment created successfully: " + appointment);
+        } else {
+            System.out.println("Failed to create appointment. Doctor may not be available at this time.");
+        }
+    } catch (IllegalArgumentException e) {
+        System.out.println(e.getMessage());
+    }
+}
     private static void rescheduleAppointment() {
         System.out.println("\n----- Reschedule Appointment -----");
 
-        System.out.print("Enter patient CNP: ");
-        String patientCNP = scanner.nextLine();
+        Patient patient = selectPatientByName();
+        if (patient == null) {
+            System.out.println("No patient selected.");
+            return;
+        }
 
-        System.out.print("Enter doctor CNP: ");
-        String doctorCNP = scanner.nextLine();
+        Doctor doctor = selectDoctorByName();
+        if (doctor == null) {
+            System.out.println("No doctor selected.");
+            return;
+        }
 
         System.out.print("Enter current appointment date and time (yyyy-MM-dd HH:mm): ");
         String oldDateTimeStr = scanner.nextLine();
@@ -453,7 +464,7 @@ public class Main {
             LocalDateTime oldDateTime = LocalDateTime.parse(oldDateTimeStr, dateTimeFormatter);
             LocalDateTime newDateTime = LocalDateTime.parse(newDateTimeStr, dateTimeFormatter);
 
-            boolean success = service.rescheduleAppointment(patientCNP, doctorCNP, oldDateTime, newDateTime);
+            boolean success = service.rescheduleAppointment(patient.getCNP(), doctor.getCNP(), oldDateTime, newDateTime);
 
             if (success) {
                 System.out.println("Appointment rescheduled successfully.");
@@ -468,11 +479,17 @@ public class Main {
     private static void cancelAppointment() {
         System.out.println("\n----- Cancel Appointment -----");
 
-        System.out.print("Enter patient CNP: ");
-        String patientCNP = scanner.nextLine();
+        Patient patient = selectPatientByName();
+        if (patient == null) {
+            System.out.println("No patient selected.");
+            return;
+        }
 
-        System.out.print("Enter doctor CNP: ");
-        String doctorCNP = scanner.nextLine();
+        Doctor doctor = selectDoctorByName();
+        if (doctor == null) {
+            System.out.println("No doctor selected.");
+            return;
+        }
 
         System.out.print("Enter appointment date and time (yyyy-MM-dd HH:mm): ");
         String dateTimeStr = scanner.nextLine();
@@ -480,7 +497,7 @@ public class Main {
         try {
             LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, dateTimeFormatter);
 
-            boolean success = service.cancelAppointment(patientCNP, doctorCNP, dateTime);
+            boolean success = service.cancelAppointment(patient.getCNP(), doctor.getCNP(), dateTime);
 
             if (success) {
                 System.out.println("Appointment canceled successfully.");
@@ -495,12 +512,9 @@ public class Main {
     private static void viewDoctorSchedule() {
         System.out.println("\n----- View Doctor Schedule -----");
 
-        System.out.print("Enter doctor CNP: ");
-        String doctorCNP = scanner.nextLine();
-
-        Doctor doctor = service.getDoctorByCNP(doctorCNP);
+        Doctor doctor = selectDoctorByName();
         if (doctor == null) {
-            System.out.println("Doctor not found with CNP: " + doctorCNP);
+            System.out.println("No doctor selected.");
             return;
         }
 
@@ -510,7 +524,7 @@ public class Main {
         try {
             LocalDate date = LocalDate.parse(dateStr, dateFormatter);
 
-            List<Appointment> appointments = service.getDoctorDailySchedule(doctorCNP, date);
+            List<Appointment> appointments = service.getDoctorDailySchedule(doctor.getCNP(), date);
 
             if (appointments.isEmpty()) {
                 System.out.println("No appointments scheduled for " + doctor.getName() + " " + doctor.getPrenume() + " on " + dateStr);
@@ -524,4 +538,76 @@ public class Main {
             System.out.println("Invalid date format. Please use yyyy-MM-dd format.");
         }
     }
+
+    private static Patient selectPatientByName() {
+        System.out.print("Enter patient last name or first name: ");
+        String name = scanner.nextLine();
+        List<Patient> patients = service.findPatientsByName(name);
+
+        if (patients.isEmpty()) {
+            System.out.println("No patients found with name: " + name);
+            return null;
+        } else if (patients.size() == 1) {
+            Patient patient = patients.get(0);
+            System.out.println("Is this who you are looking for? " + patient + " (y/n)");
+            String confirm = scanner.nextLine();
+            if (confirm.equalsIgnoreCase("y")) {
+                return patient;
+            } else {
+                return null;
+            }
+        } else {
+            System.out.println("Multiple patients found:");
+            for (int i = 0; i < patients.size(); i++) {
+                System.out.println((i + 1) + ". " + patients.get(i));
+            }
+            System.out.print("Enter the number of the patient you want: ");
+            try {
+                int choice = Integer.parseInt(scanner.nextLine());
+                if (choice >= 1 && choice <= patients.size()) {
+                    return patients.get(choice - 1);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input.");
+            }
+            return null;
+        }
+    }
+
+    private static Doctor selectDoctorByName() {
+        System.out.print("Enter doctor last name or first name: ");
+        String name = scanner.nextLine();
+        List<Doctor> doctors = service.findDoctorsByName(name);
+
+        if (doctors.isEmpty()) {
+            System.out.println("No doctors found with name: " + name);
+            return null;
+        } else if (doctors.size() == 1) {
+            Doctor doctor = doctors.get(0);
+            System.out.println("Is this who you are looking for? " + doctor + " (y/n)");
+            String confirm = scanner.nextLine();
+            if (confirm.equalsIgnoreCase("y")) {
+                return doctor;
+            } else {
+                return null;
+            }
+        } else {
+            System.out.println("Multiple doctors found:");
+            for (int i = 0; i < doctors.size(); i++) {
+                System.out.println((i + 1) + ". " + doctors.get(i));
+            }
+            System.out.print("Enter the number of the doctor you want: ");
+            try {
+                int choice = Integer.parseInt(scanner.nextLine());
+                if (choice >= 1 && choice <= doctors.size()) {
+                    return doctors.get(choice - 1);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input.");
+            }
+            return null;
+        }
+    }
+
+    
 }

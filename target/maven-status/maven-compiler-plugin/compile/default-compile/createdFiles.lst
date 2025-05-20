@@ -7,3 +7,4 @@ Prescription.class
 Person.class
 MedicalOffice.class
 Service.class
+DBConnection.class

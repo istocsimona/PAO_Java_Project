@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Service {
@@ -61,12 +62,15 @@ public class Service {
 
     // 3. Show the history of a patient
     public List<Consultation> getPatientHistory(String patientCNP) {
-        Patient patient = medicalOffice.getPatientByCNP(patientCNP);
-        if (patient != null) {
-            return patient.getConsultationHistory();
-        }
-        return null;
+    // Fetch performed appointments for this patient and convert to Consultation
+    List<Consultation> history = new ArrayList<>();
+    List<Appointment> appointments = medicalOffice.getAppointmentsByPatientAndStatus(patientCNP, "performed");
+    for (Appointment appt : appointments) {
+        Consultation cons = new Consultation(appt.getDoctor(), appt.getPatient(), appt.getDateTime());
+        history.add(cons);
     }
+    return history;
+}
 
 
 
@@ -104,8 +108,11 @@ public class Service {
 
 
 
-    // 8. Find a specific patient
+    // 8. Find a specific patient and doctor
     public List<Patient> findPatientsByName(String name) {
         return medicalOffice.findPatientsByName(name);
+    }
+    public List<Doctor> findDoctorsByName(String name) {
+        return medicalOffice.findDoctorsByName(name);
     }
 }
