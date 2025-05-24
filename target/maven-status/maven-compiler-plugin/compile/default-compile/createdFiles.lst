@@ -5,6 +5,7 @@ Doctor.class
 Consultation.class
 Prescription.class
 Person.class
+AuditService.class
 MedicalOffice.class
 Service.class
 DBConnection.class

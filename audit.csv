@@ -1,0 +1,6 @@
+addPatient,2025-05-24 16:49:44
+getAllPatients,2025-05-24 16:49:48
+getPatientByCNP,2025-05-24 16:49:53
+findPatientsByName,2025-05-24 16:49:58
+updatePatient,2025-05-24 16:50:03
+findPatientsByName,2025-05-24 16:50:08
