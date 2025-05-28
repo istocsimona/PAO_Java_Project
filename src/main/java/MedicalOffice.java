@@ -10,6 +10,11 @@ import java.util.List;
 
 public class MedicalOffice {
 
+    private List<Patient> patientList = new ArrayList<>();
+    private java.util.SortedSet<Doctor> doctorSet = new java.util.TreeSet<>(
+         java.util.Comparator.comparing(Doctor::getName).thenComparing(Doctor::getPrenume)
+    );
+
     public List<Patient> findPatientsByName(String name) {
         List<Patient> patients = new ArrayList<>();
         String sql = "SELECT * FROM patient WHERE LOWER(name) LIKE ? OR LOWER(prenume) LIKE ?";
@@ -61,6 +66,15 @@ public class MedicalOffice {
     }
 
     public MedicalOffice() {
+    }
+
+    public java.util.SortedSet<Doctor> getAllDoctorsSorted() {
+        java.util.SortedSet<Doctor> sortedDoctors = new java.util.TreeSet<>(
+            java.util.Comparator.comparing(Doctor::getName).thenComparing(Doctor::getPrenume)
+        );
+        List<Doctor> doctorsFromDb = getDoctorList(); // ia toți doctorii din baza de date
+        sortedDoctors.addAll(doctorsFromDb);
+        return sortedDoctors;
     }
 
     public List<Doctor> getDoctorList() {
@@ -126,9 +140,10 @@ public class MedicalOffice {
                 Patient patient = getPatientByCNP(rs.getString("patient_cnp"));
                 Doctor doctor = getDoctorByCNP(rs.getString("doctor_cnp"));
                 LocalDateTime dateTime = rs.getTimestamp("date_time").toLocalDateTime();
-                String status = rs.getString("status");
                 Appointment appointment = new Appointment(patient, doctor, dateTime);
-                appointment.setStatus(status);
+                appointment.setStatus(rs.getString("status"));
+                appointment.setDiagnosis(rs.getString("diagnosis"));
+                appointment.setPrescription(rs.getString("prescription"));
                 appointments.add(appointment);
             }
         } catch (SQLException e) {
@@ -143,6 +158,7 @@ public class MedicalOffice {
     // Patient operations
     public void addPatient(Patient patient) {
         String sql = "INSERT INTO patient (name, prenume, cnp, telefon, email, address, blood_group) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        patientList.add(patient);
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, patient.getName());
@@ -225,7 +241,9 @@ public class MedicalOffice {
                 Doctor doctor = getDoctorByCNP(rs.getString("doctor_cnp"));
                 LocalDateTime dateTime = rs.getTimestamp("date_time").toLocalDateTime();
                 Appointment appointment = new Appointment(patient, doctor, dateTime);
-                appointment.setStatus(status);
+                appointment.setStatus(rs.getString("status"));
+                appointment.setDiagnosis(rs.getString("diagnosis"));
+                appointment.setPrescription(rs.getString("prescription"));
                 appointments.add(appointment);
             }
         } catch (SQLException e) {
@@ -239,6 +257,7 @@ public class MedicalOffice {
     // Doctor operations
     public void addDoctor(Doctor doctor) {
         String sql = "INSERT INTO doctor (name, prenume, cnp, telefon, email, specialty) VALUES (?, ?, ?, ?, ?, ?)";
+        doctorSet.add(doctor);
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, doctor.getName());
@@ -302,41 +321,53 @@ public class MedicalOffice {
         }
     }
 
+    public List<LocalDateTime> getAvailableHoursForDoctor(String doctorCNP, LocalDate date) {
+        List<LocalDateTime> availableHours = new ArrayList<>();
+        // Let's say working hours are 08:00 to 16:00, every hour
+        for (int hour = 8; hour < 16; hour++) {
+            LocalDateTime slot = date.atTime(hour, 0);
+            if (isDoctorAvailable(doctorCNP, slot)) {
+                availableHours.add(slot);
+            }
+        }
+        return availableHours;
+    }
+
     
 
     // Appointment operations
     public Appointment makeAppointment(String patientCNP, String doctorCNP, LocalDateTime dateTime) {
-    if (dateTime.isBefore(LocalDateTime.now())) {
-        throw new IllegalArgumentException("Appointment date and time must be in the future.");
-    }
-    Patient patient = getPatientByCNP(patientCNP);
-    Doctor doctor = getDoctorByCNP(doctorCNP);
+        if (dateTime.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Appointment date and time must be in the future.");
+        }
+        Patient patient = getPatientByCNP(patientCNP);
+        Doctor doctor = getDoctorByCNP(doctorCNP);
 
-    if (patient == null || doctor == null) {
-        return null;
-    }
+        if (patient == null || doctor == null) {
+            return null;
+        }
 
-    if (!isDoctorAvailable(doctorCNP, dateTime)) {
-        return null;
-    }
+        if (!isDoctorAvailable(doctorCNP, dateTime)) {
+            return null;
+        }
 
-    String sql = "INSERT INTO appointment (patient_cnp, doctor_cnp, date_time, status) VALUES (?, ?, ?, ?)";
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        pstmt.setString(1, patientCNP);
-        pstmt.setString(2, doctorCNP);
-        pstmt.setTimestamp(3, java.sql.Timestamp.valueOf(dateTime));
-        pstmt.setString(4, "scheduled");
-        pstmt.executeUpdate();
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return null;
-    }
+        String sql = "INSERT INTO appointment (patient_cnp, doctor_cnp, date_time, status) VALUES (?, ?, ?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, patientCNP);
+            pstmt.setString(2, doctorCNP);
+            pstmt.setTimestamp(3, java.sql.Timestamp.valueOf(dateTime));
+            pstmt.setString(4, "scheduled");
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
 
-    Appointment appointment = new Appointment(patient, doctor, dateTime);
-    appointment.setStatus("scheduled");
-    return appointment;
-}
+        Appointment appointment = new Appointment(patient, doctor, dateTime);
+        appointment.setStatus("scheduled");
+        return appointment;
+    }
 
     public boolean rescheduleAppointment(String patientCNP, String doctorCNP,
                                          LocalDateTime oldDateTime, LocalDateTime newDateTime) {
@@ -375,6 +406,23 @@ public class MedicalOffice {
         return false;
     }
 
+    public boolean markAppointmentAsDone(String patientCNP, String doctorCNP, LocalDateTime dateTime, String diagnosis, String prescription) {
+        String sql = "UPDATE appointment SET status='performed', diagnosis=?, prescription=? WHERE patient_cnp=? AND doctor_cnp=? AND date_time=?";
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, diagnosis);
+            pstmt.setString(2, prescription);
+            pstmt.setString(3, patientCNP);
+            pstmt.setString(4, doctorCNP);
+            pstmt.setTimestamp(5, java.sql.Timestamp.valueOf(dateTime));
+            int updated = pstmt.executeUpdate();
+            return updated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public List<Appointment> getDoctorDailySchedule(String doctorCNP, LocalDate date) {
         List<Appointment> appointments = new ArrayList<>();
         String sql = "SELECT * FROM appointment WHERE doctor_cnp=? AND DATE(date_time)=?";
@@ -387,9 +435,10 @@ public class MedicalOffice {
                 Patient patient = getPatientByCNP(rs.getString("patient_cnp"));
                 Doctor doctor = getDoctorByCNP(rs.getString("doctor_cnp"));
                 LocalDateTime dateTime = rs.getTimestamp("date_time").toLocalDateTime();
-                String status = rs.getString("status");
-                Appointment appointment = new Appointment(patient, doctor, dateTime);
-                appointment.setStatus(status);
+               Appointment appointment = new Appointment(patient, doctor, dateTime);
+                appointment.setStatus(rs.getString("status"));
+                appointment.setDiagnosis(rs.getString("diagnosis"));
+                appointment.setPrescription(rs.getString("prescription"));
                 appointments.add(appointment);
             }
         } catch (SQLException e) {

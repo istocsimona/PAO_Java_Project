@@ -6,6 +6,8 @@ public class Appointment {
     private Doctor doctor;
     private LocalDateTime dateTime;
     private String status; // scheduled, canceled, performed
+    private String diagnosis;
+    private String prescription;
 
     public Appointment() {
     }
@@ -61,6 +63,28 @@ public class Appointment {
         this.status = "performed";
     }
 
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
+    }
+
+    public String getPrescription() {
+        return prescription;
+    }
+
+    public void setPrescription(String prescription) {
+        this.prescription = prescription;
+    }
+
+    public void markAsPerformed(String diagnosis, String prescription) {
+        this.status = "performed";
+        this.diagnosis = diagnosis;
+        this.prescription = prescription;
+    }
+
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -69,6 +93,8 @@ public class Appointment {
                 ", doctor=" + doctor.getName() + " " + doctor.getPrenume() +
                 ", dateTime=" + dateTime.format(formatter) +
                 ", status='" + status + '\'' +
+                (diagnosis != null ? ", diagnosis='" + diagnosis + '\'' : "") +
+                (prescription != null ? ", prescription='" + prescription + '\'' : "") +
                 '}';
     }
 }

@@ -1,13 +1,10 @@
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class Patient extends Person {
     private String address;
     private String bloodGroup;
-    private List<Consultation> consultationHistory;
 
     public Patient() {
-        this.consultationHistory = new ArrayList<>();
     }
 
     public String getAddress() {
@@ -24,21 +21,6 @@ public class Patient extends Person {
 
     public void setBloodGroup(String bloodGroup) {
         this.bloodGroup = bloodGroup;
-    }
-
-    public List<Consultation> getConsultationHistory() {
-        return consultationHistory;
-    }
-
-    public void setConsultationHistory(List<Consultation> consultationHistory) {
-        this.consultationHistory = consultationHistory;
-    }
-
-    public void addConsultation(Consultation consultation) {
-        if (this.consultationHistory == null) {
-            this.consultationHistory = new ArrayList<>();
-        }
-        this.consultationHistory.add(consultation);
     }
 
     @Override
