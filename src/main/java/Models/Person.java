@@ -1,3 +1,5 @@
+package Models;
+
 class Person {
     protected String name;
     protected String prenume;
@@ -47,7 +49,7 @@ class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "Models.Person{" +
                 "name='" + name + '\'' +
                 ", prenume='" + prenume + '\'' +
                 ", CNP='" + CNP + '\'' +

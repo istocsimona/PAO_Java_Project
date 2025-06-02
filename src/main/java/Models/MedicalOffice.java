@@ -1,3 +1,5 @@
+package Models;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -7,12 +9,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import Connection.DBConnection;
 
 public class MedicalOffice {
 
     private List<Patient> patientList = new ArrayList<>();
     private java.util.SortedSet<Doctor> doctorSet = new java.util.TreeSet<>(
-         java.util.Comparator.comparing(Doctor::getName).thenComparing(Doctor::getPrenume)
+        java.util.Comparator.comparing((Doctor d) -> d.getName().toLowerCase())
+            .thenComparing(d -> d.getPrenume().toLowerCase())
+            .thenComparing(Doctor::getCNP)
     );
 
     public List<Patient> findPatientsByName(String name) {
@@ -70,9 +75,11 @@ public class MedicalOffice {
 
     public java.util.SortedSet<Doctor> getAllDoctorsSorted() {
         java.util.SortedSet<Doctor> sortedDoctors = new java.util.TreeSet<>(
-            java.util.Comparator.comparing(Doctor::getName).thenComparing(Doctor::getPrenume)
+            java.util.Comparator.comparing((Doctor d) -> d.getName().toLowerCase())
+                .thenComparing(d -> d.getPrenume().toLowerCase())
+                .thenComparing(Doctor::getCNP)
         );
-        List<Doctor> doctorsFromDb = getDoctorList(); // ia toți doctorii din baza de date
+        List<Doctor> doctorsFromDb = getDoctorList();
         sortedDoctors.addAll(doctorsFromDb);
         return sortedDoctors;
     }
@@ -155,7 +162,7 @@ public class MedicalOffice {
     public void setAppointmentList(List<Appointment> appointmentList) {
     }
 
-    // Patient operations
+    // Models.Patient operations
     public void addPatient(Patient patient) {
         String sql = "INSERT INTO patient (name, prenume, cnp, telefon, email, address, blood_group) VALUES (?, ?, ?, ?, ?, ?, ?)";
         patientList.add(patient);
@@ -263,7 +270,7 @@ public class MedicalOffice {
 
     
 
-    // Doctor operations
+    // Models.Doctor operations
     public void addDoctor(Doctor doctor) {
         String sql = "INSERT INTO doctor (name, prenume, cnp, telefon, email, specialty) VALUES (?, ?, ?, ?, ?, ?)";
         doctorSet.add(doctor);
@@ -354,10 +361,10 @@ public class MedicalOffice {
 
     
 
-    // Appointment operations
+    // Models.Appointment operations
     public Appointment makeAppointment(String patientCNP, String doctorCNP, LocalDateTime dateTime) {
         if (dateTime.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Appointment date and time must be in the future.");
+            throw new IllegalArgumentException("Models.Appointment date and time must be in the future.");
         }
         Patient patient = getPatientByCNP(patientCNP);
         Doctor doctor = getDoctorByCNP(doctorCNP);

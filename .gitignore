@@ -30,4 +30,4 @@ bin/
 
 #for vscode-> in terminal
 # mvn clean compile
-# mvn exec:java "-Dexec.mainClass=Main"
+# mvn exec:java "-Dexec.mainClass=Models.Main"

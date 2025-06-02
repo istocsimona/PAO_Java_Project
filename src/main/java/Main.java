@@ -1,3 +1,7 @@
+
+
+import Service.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -5,12 +9,18 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors; 
+import java.util.stream.Collectors;
+
+import Models.Appointment;
+import Models.Doctor;
+import Models.Patient; 
 
 
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
-    private static Service service = new Service();
+    private static PatientService patientService = new PatientService();
+    private static DoctorService doctorService = new DoctorService();
+    private static AppointmentService appointmentService = new AppointmentService();
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static void main(String[] args) {
@@ -120,7 +130,7 @@ public class Main {
         System.out.println("==========================================");
     }
 
-    // Patient operations
+    // Models.Patient operations
     private static void addPatient() {
         System.out.println("\n----- Add New Patient -----");
         Patient patient = new Patient();
@@ -146,13 +156,13 @@ public class Main {
         System.out.print("Enter blood group: ");
         patient.setBloodGroup(scanner.nextLine());
 
-        service.addPatient(patient);
+        patientService.addPatient(patient);
         System.out.println("Patient added successfully!");
     }
 
     private static void viewAllPatients() {
         System.out.println("\n----- All Patients -----");
-        List<Patient> patients = service.getAllPatients();
+        List<Patient> patients = patientService.getAllPatients();
 
         if (patients.isEmpty()) {
             System.out.println("No patients found.");
@@ -166,10 +176,11 @@ public class Main {
     }
 
     private static void findPatientByCNP() {
+        System.out.println("\n----- Find Patient By CNP -----");
         System.out.print("Enter patient CNP: ");
         String cnp = scanner.nextLine();
 
-        Patient patient = service.getPatientByCNP(cnp);
+        Patient patient = patientService.getPatientByCNP(cnp);
         if (patient != null) {
             System.out.println("Patient found: " + patient);
         } else {
@@ -178,6 +189,7 @@ public class Main {
     }
 
     private static void updatePatient() {
+        System.out.println("\n----- Update Patient -----");
         Patient patient = selectPatientByName();
         if (patient == null) {
             System.out.println("No patient selected.");
@@ -223,11 +235,12 @@ public class Main {
             patient.setBloodGroup(bloodGroup);
         }
 
-        service.updatePatient(patient);
+        patientService.updatePatient(patient);
         System.out.println("Patient updated successfully!");
     }
 
     private static void deletePatient() {
+        System.out.println("\n----- Delete Patient -----");
         Patient patient = selectPatientByName();
         if (patient == null) {
             System.out.println("No patient selected.");
@@ -240,7 +253,7 @@ public class Main {
 
         String confirm = scanner.nextLine();
         if (confirm.equalsIgnoreCase("y")) {
-            service.deletePatient(patient.getCNP());
+            patientService.deletePatient(patient.getCNP());
             System.out.println("Patient deleted successfully!");
         } else {
             System.out.println("Deletion canceled.");
@@ -248,10 +261,11 @@ public class Main {
     }
 
     private static void findPatientsByName() {
+        System.out.println("\n----- Find Patient By Name -----");
         System.out.print("Enter patient name (first or last): ");
         String name = scanner.nextLine();
 
-        List<Patient> patients = service.findPatientsByName(name);
+        List<Patient> patients = patientService.findPatientsByName(name);
         if (patients.isEmpty()) {
             System.out.println("No patients found with name: " + name);
             return;
@@ -264,14 +278,14 @@ public class Main {
     }
 
     private static void viewPatientHistory() {
+        System.out.println("\n----- View Patient History -----");
         Patient patient = selectPatientByName();
         if (patient == null) {
             System.out.println("No patient selected.");
             return;
         }
-        // Change this line:
-        // List<Consultation> history = service.getPatientHistory(patient.getCNP());
-        List<Appointment> history = service.getPatientHistory(patient.getCNP());
+        
+        List<Appointment> history = appointmentService.getPatientHistory(patient.getCNP());
 
         if (history == null || history.isEmpty()) {
             System.out.println("No appointment history found for patient with CNP: " + patient.getCNP());
@@ -307,13 +321,13 @@ public class Main {
         System.out.print("Enter specialty: ");
         doctor.setSpecialty(scanner.nextLine());
 
-        service.addDoctor(doctor);
+        doctorService.addDoctor(doctor);
         System.out.println("Doctor added successfully!");
     }
 
     private static void viewAllDoctors() {
         System.out.println("\n----- All Doctors -----");
-        java.util.SortedSet<Doctor> doctors = service.getAllDoctorsSorted();
+        java.util.SortedSet<Doctor> doctors = doctorService.getAllDoctorsSorted();
 
         if (doctors.isEmpty()) {
             System.out.println("No doctors found.");
@@ -326,10 +340,11 @@ public class Main {
     }
 
     private static void findDoctorByCNP() {
+        System.out.println("\n----- Find Doctor By CNP -----");
         System.out.print("Enter doctor CNP: ");
         String cnp = scanner.nextLine();
 
-        Doctor doctor = service.getDoctorByCNP(cnp);
+        Doctor doctor = doctorService.getDoctorByCNP(cnp);
         if (doctor != null) {
             System.out.println("Doctor found: " + doctor);
         } else {
@@ -338,6 +353,7 @@ public class Main {
     }
 
     private static void updateDoctor() {
+        System.out.println("\n----- Update Doctor -----");
         Doctor doctor = selectDoctorByName();
         if (doctor == null) {
             System.out.println("No doctor selected.");
@@ -377,11 +393,12 @@ public class Main {
             doctor.setSpecialty(specialty);
         }
 
-        service.updateDoctor(doctor);
+        doctorService.updateDoctor(doctor);
         System.out.println("Doctor updated successfully!");
     }
 
     private static void deleteDoctor() {
+        System.out.println("\n----- Delete Doctor -----");
         Doctor doctor = selectDoctorByName();
         if (doctor == null) {
             System.out.println("No doctor selected.");
@@ -393,7 +410,7 @@ public class Main {
 
         String confirm = scanner.nextLine();
         if (confirm.equalsIgnoreCase("y")) {
-            service.deleteDoctor(doctor.getCNP());
+            doctorService.deleteDoctor(doctor.getCNP());
             System.out.println("Doctor deleted successfully!");
         } else {
             System.out.println("Deletion canceled.");
@@ -429,7 +446,7 @@ public class Main {
             return;
         }
 
-        List<LocalDateTime> availableHours = service.getAvailableHoursForDoctor(doctor.getCNP(), date);
+        List<LocalDateTime> availableHours = appointmentService.getAvailableHoursForDoctor(doctor.getCNP(), date);
         if (availableHours.isEmpty()) {
             System.out.println("No available hours for this doctor on this date.");
             return;
@@ -453,11 +470,11 @@ public class Main {
         LocalDateTime dateTime = availableHours.get(hourChoice - 1);
 
         try {
-            Appointment appointment = service.makeAppointment(patient.getCNP(), doctor.getCNP(), dateTime);
+            Appointment appointment = appointmentService.makeAppointment(patient.getCNP(), doctor.getCNP(), dateTime);
             if (appointment != null) {
-                System.out.println("Appointment created successfully: " + appointment);
+                System.out.println("Models.Appointment created successfully: " + appointment);
             } else {
-                System.out.println("Failed to create appointment. Doctor may not be available at this time.");
+                System.out.println("Failed to create appointment. Models.Doctor may not be available at this time.");
             }
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -477,7 +494,7 @@ public class Main {
         String specialty = scanner.nextLine();
 
         // Caută doctorii cu specializarea respectivă
-        List<Doctor> allDoctors = service.getAllDoctorsSorted().stream().collect(Collectors.toList());
+        List<Doctor> allDoctors = doctorService.getAllDoctorsSorted().stream().collect(Collectors.toList());
         List<Doctor> filteredDoctors = new ArrayList<>();
         for (Doctor doctor : allDoctors) {
             if (doctor.getSpecialty() != null && doctor.getSpecialty().equalsIgnoreCase(specialty)) {
@@ -519,7 +536,7 @@ public class Main {
             return;
         }
 
-        List<LocalDateTime> availableHours = service.getAvailableHoursForDoctor(doctor.getCNP(), date);
+        List<LocalDateTime> availableHours = appointmentService.getAvailableHoursForDoctor(doctor.getCNP(), date);
         if (availableHours.isEmpty()) {
             System.out.println("No available hours for this doctor on this date.");
             return;
@@ -543,7 +560,7 @@ public class Main {
         LocalDateTime dateTime = availableHours.get(hourChoice - 1);
 
         try {
-            Appointment appointment = service.makeAppointment(patient.getCNP(), doctor.getCNP(), dateTime);
+            Appointment appointment = appointmentService.makeAppointment(patient.getCNP(), doctor.getCNP(), dateTime);
             if (appointment != null) {
                 System.out.println("Appointment created successfully: " + appointment);
             } else {
@@ -582,7 +599,7 @@ public class Main {
             return;
         }
 
-        List<Appointment> appointments = service.getDoctorDailySchedule(doctor.getCNP(), oldDate);
+        List<Appointment> appointments = appointmentService.getDoctorDailySchedule(doctor.getCNP(), oldDate);
         appointments.removeIf(a -> !a.getPatient().getCNP().equals(patient.getCNP()) ||
                                 !"scheduled".equalsIgnoreCase(a.getStatus()));
 
@@ -619,7 +636,7 @@ public class Main {
             return;
         }
 
-        List<LocalDateTime> availableHours = service.getAvailableHoursForDoctor(doctor.getCNP(), newDate);
+        List<LocalDateTime> availableHours = appointmentService.getAvailableHoursForDoctor(doctor.getCNP(), newDate);
         if (availableHours.isEmpty()) {
             System.out.println("No available hours for this doctor on this date.");
             return;
@@ -642,7 +659,7 @@ public class Main {
         }
         LocalDateTime newDateTime = availableHours.get(newHourChoice - 1);
 
-        boolean success = service.rescheduleAppointment(patient.getCNP(), doctor.getCNP(), oldDateTime, newDateTime);
+        boolean success = appointmentService.rescheduleAppointment(patient.getCNP(), doctor.getCNP(), oldDateTime, newDateTime);
 
         if (success) {
             System.out.println("Appointment rescheduled successfully.");
@@ -676,7 +693,7 @@ public class Main {
             return;
         }
 
-        List<Appointment> appointments = service.getDoctorDailySchedule(doctor.getCNP(), date);
+        List<Appointment> appointments = appointmentService.getDoctorDailySchedule(doctor.getCNP(), date);
         appointments.removeIf(a -> !a.getPatient().getCNP().equals(patient.getCNP()) ||
                                 !"scheduled".equalsIgnoreCase(a.getStatus()));
 
@@ -702,7 +719,7 @@ public class Main {
         }
         LocalDateTime dateTime = appointments.get(choice - 1).getDateTime();
 
-        boolean success = service.cancelAppointment(patient.getCNP(), doctor.getCNP(), dateTime);
+        boolean success = appointmentService.cancelAppointment(patient.getCNP(), doctor.getCNP(), dateTime);
 
         if (success) {
             System.out.println("Appointment canceled successfully.");
@@ -736,7 +753,7 @@ public class Main {
             return;
         }
 
-        List<Appointment> appointments = service.getDoctorDailySchedule(doctor.getCNP(), date);
+        List<Appointment> appointments = appointmentService.getDoctorDailySchedule(doctor.getCNP(), date);
         appointments.removeIf(a -> !a.getPatient().getCNP().equals(patient.getCNP()) ||
                                 !"scheduled".equalsIgnoreCase(a.getStatus()));
 
@@ -768,7 +785,7 @@ public class Main {
         System.out.print("Enter prescription: ");
         String prescription = scanner.nextLine();
 
-        boolean success = service.markAppointmentAsDone(patient.getCNP(), doctor.getCNP(), dateTime, diagnosis, prescription);
+        boolean success = appointmentService.markAppointmentAsDone(patient.getCNP(), doctor.getCNP(), dateTime, diagnosis, prescription);
         if (success) {
             System.out.println("Appointment marked as done with diagnosis and prescription!");
         } else {
@@ -791,7 +808,7 @@ public class Main {
         try {
             LocalDate date = LocalDate.parse(dateStr, dateFormatter);
 
-            List<Appointment> appointments = service.getDoctorDailySchedule(doctor.getCNP(), date);
+            List<Appointment> appointments = appointmentService.getDoctorDailySchedule(doctor.getCNP(), date);
 
             if (appointments.isEmpty()) {
                 System.out.println("No appointments scheduled for " + doctor.getName() + " " + doctor.getPrenume() + " on " + dateStr);
@@ -809,7 +826,7 @@ public class Main {
     private static Patient selectPatientByName() {
         System.out.print("Enter patient last name or first name: ");
         String name = scanner.nextLine();
-        List<Patient> patients = service.findPatientsByName(name);
+        List<Patient> patients = patientService.findPatientsByName(name);
 
         if (patients.isEmpty()) {
             System.out.println("No patients found with name: " + name);
@@ -844,7 +861,7 @@ public class Main {
     private static Doctor selectDoctorByName() {
         System.out.print("Enter doctor last name or first name: ");
         String name = scanner.nextLine();
-        List<Doctor> doctors = service.findDoctorsByName(name);
+        List<Doctor> doctors = doctorService.findDoctorsByName(name);
 
         if (doctors.isEmpty()) {
             System.out.println("No doctors found with name: " + name);

@@ -186,3 +186,151 @@
 02-06-2025 16:02:51 S-a marcat ca efectuata programarea cu diagnostic si reteta pentru pacientul cu CNP 6837234278673 la doctorul cu CNP 1234567891234 la data 2025-12-12T08:00
 02-06-2025 16:03:00 S-a cautat pacientul cu numele: a
 02-06-2025 16:03:01 S-a afisat istoricul pacientului Pop Ana
+02-06-2025 21:10:46 S-a adaugat pacientul last first
+02-06-2025 21:10:48 S-a afisat lista pacientilor
+02-06-2025 21:11:09 S-a cautat pacientul last first cu CNP cnp
+02-06-2025 21:11:27 S-a cautat pacientul cu numele: last
+02-06-2025 21:11:44 S-a actualizat pacientul LAST FIRST
+02-06-2025 21:11:47 S-a afisat lista pacientilor
+02-06-2025 21:11:54 S-a cautat pacientul cu numele: last
+02-06-2025 21:11:56 S-a sters pacientul LAST FIRST
+02-06-2025 21:11:57 S-a afisat lista pacientilor
+02-06-2025 21:12:03 S-a cautat pacientul cu numele: ana
+02-06-2025 21:12:11 S-a incercat căutarea unui pacient inexistent cu CNP 1234
+02-06-2025 21:12:14 S-a afisat lista pacientilor
+02-06-2025 21:12:28 S-a cautat pacientul Ana Maria cu CNP 123
+02-06-2025 21:13:30 S-a cautat pacientul cu numele: ana
+02-06-2025 21:13:38 S-a cautat pacientul cu numele: ana
+02-06-2025 21:13:39 S-a afisat istoricul pacientului Pop Ana
+02-06-2025 21:23:24 S-a adaugat pacientul last first
+02-06-2025 21:23:45 S-a afisat lista pacientilor
+02-06-2025 21:23:51 S-a cautat pacientul last first cu CNP cnp
+02-06-2025 21:24:06 S-a cautat pacientul cu numele: last
+02-06-2025 21:24:19 S-a actualizat pacientul LAST FIRST
+02-06-2025 21:24:50 S-a cautat pacientul cu numele: LAST
+02-06-2025 21:24:54 S-a sters pacientul LAST FIRST
+02-06-2025 21:25:06 S-a cautat pacientul cu numele: ANA
+02-06-2025 21:25:14 S-a cautat pacientul cu numele: ana
+02-06-2025 21:25:18 S-a afisat istoricul pacientului Pop Ana
+02-06-2025 21:26:30 S-a adaugat doctorul last first
+02-06-2025 21:26:47 S-a afisat lista doctorilor
+02-06-2025 21:26:52 S-a cautat doctorul last first cu CNP cnp
+02-06-2025 21:27:06 S-a cautat pacientul cu numele: ana
+02-06-2025 21:27:31 S-a cautat doctorul cu numele: last
+02-06-2025 21:27:41 S-a actualizat doctorul LAST FIRST
+02-06-2025 21:27:54 S-a cautat doctorul cu numele: LAST
+02-06-2025 21:27:57 S-a sters doctorul LAST FIRST
+02-06-2025 21:28:21 S-a cautat pacientul cu numele: ana
+02-06-2025 21:28:25 S-a cautat doctorul cu numele: a
+02-06-2025 21:28:31 S-a programat pacientul Pop Ana la doctorul Mihail Andrei la data 2025-12-12T08:00
+02-06-2025 21:29:07 S-a cautat pacientul cu numele: 
+02-06-2025 21:37:38 S-a adaugat pacientul last first
+02-06-2025 21:37:45 S-a afisat lista pacientilor
+02-06-2025 21:37:50 S-a cautat pacientul last first cu CNP cnp
+02-06-2025 21:37:56 S-a cautat pacientul cu numele: last
+02-06-2025 21:38:09 S-a actualizat pacientul LAST FRIST
+02-06-2025 21:38:24 S-a afisat lista pacientilor
+02-06-2025 21:38:29 S-a cautat pacientul cu numele: LAST
+02-06-2025 21:38:32 S-a sters pacientul LAST FRIST
+02-06-2025 21:38:33 S-a afisat lista pacientilor
+02-06-2025 21:38:38 S-a cautat pacientul cu numele: ANA
+02-06-2025 21:38:53 S-a cautat pacientul cu numele: ana
+02-06-2025 21:38:54 S-a afisat istoricul pacientului Pop Ana
+02-06-2025 21:43:57 S-a adaugat doctorul ana first
+02-06-2025 21:44:00 S-a afisat lista doctorilor
+02-06-2025 21:44:04 S-a cautat doctorul ana first cu CNP cnp
+02-06-2025 21:44:12 S-a cautat doctorul cu numele: first
+02-06-2025 21:44:23 S-a actualizat doctorul LAST FIRST
+02-06-2025 21:44:31 S-a cautat doctorul cu numele: last
+02-06-2025 21:44:33 S-a sters doctorul LAST FIRST
+02-06-2025 21:44:40 S-a cautat pacientul cu numele: ana
+02-06-2025 21:44:43 S-a cautat doctorul cu numele: a
+02-06-2025 21:44:50 S-a programat pacientul Pop Ana la doctorul Mihail Andrei la data 2025-12-12T10:00
+02-06-2025 21:45:01 S-a cautat pacientul cu numele: a
+02-06-2025 21:45:06 S-a afisat lista doctorilor
+02-06-2025 21:45:16 S-a programat pacientul Spectru Alina la doctorul Mihail Andrei la data 2025-12-12T11:00
+02-06-2025 21:45:28 S-a cautat pacientul cu numele: a
+02-06-2025 21:45:30 S-a cautat doctorul cu numele: a
+02-06-2025 21:45:35 S-a afisat programul doctorului Mihail Andrei pentru data 2025-12-12
+02-06-2025 21:45:45 S-a reprogramat pacientul Spectru Alina la doctorul Mihail Andrei de la data 2025-12-12T11:00 la data 2025-12-12T15:00
+02-06-2025 21:45:53 S-a cautat pacientul cu numele: a
+02-06-2025 21:45:55 S-a cautat doctorul cu numele: a
+02-06-2025 21:45:59 S-a afisat programul doctorului Mihail Andrei pentru data 2025-12-12
+02-06-2025 21:46:02 S-a anulat programarea pacientului Spectru Alina la doctorul Mihail Andrei la data 2025-12-12T15:00
+02-06-2025 21:46:07 S-a cautat doctorul cu numele: a
+02-06-2025 21:46:09 S-a afisat programul doctorului Mihail Andrei pentru data 2025-12-12
+02-06-2025 21:46:41 S-a cautat pacientul cu numele: a
+02-06-2025 21:46:43 S-a cautat doctorul cu numele: a
+02-06-2025 21:47:01 S-a programat pacientul Pop Ana la doctorul Mihail Andrei la data 2025-12-12T15:00
+02-06-2025 21:47:19 S-a cautat doctorul cu numele: a
+02-06-2025 21:47:22 S-a afisat programul doctorului Mihail Andrei pentru data 2025-12-12
+02-06-2025 21:47:59 S-a cautat pacientul cu numele: a
+02-06-2025 21:48:01 S-a cautat doctorul cu numele: a
+02-06-2025 21:48:24 S-a afisat programul doctorului Mihail Andrei pentru data 2025-12-12
+02-06-2025 21:48:34 S-a marcat ca efectuata programarea cu diagnostic si reteta pentru pacientul cu CNP 6837234278673 la doctorul cu CNP 1234567891234 la data 2025-12-12T08:00
+02-06-2025 21:48:38 S-a cautat pacientul cu numele: a
+02-06-2025 21:48:39 S-a afisat istoricul pacientului Pop Ana
+02-06-2025 21:53:07 S-a adaugat pacientul last first
+02-06-2025 21:53:16 S-a afisat lista pacientilor
+02-06-2025 21:53:20 S-a cautat pacientul last first cu CNP cnp
+02-06-2025 21:53:31 S-a cautat pacientul cu numele: last
+02-06-2025 21:53:37 S-a actualizat pacientul last first
+02-06-2025 21:53:43 S-a cautat pacientul cu numele: a
+02-06-2025 21:54:17 S-a cautat pacientul cu numele: a
+02-06-2025 21:54:20 S-a sters pacientul last first
+02-06-2025 21:54:26 S-a cautat pacientul cu numele: a
+02-06-2025 21:54:31 S-a cautat pacientul cu numele: a
+02-06-2025 22:00:27 S-a afisat lista doctorilor
+02-06-2025 22:00:35 S-a adaugat doctorul a a
+02-06-2025 22:00:37 S-a afisat lista doctorilor
+02-06-2025 22:05:00 S-a afisat lista doctorilor
+02-06-2025 22:08:23 S-a afisat lista doctorilor
+02-06-2025 22:12:38 S-a adaugat doctorul A A
+02-06-2025 22:12:54 S-a adaugat doctorul A A
+02-06-2025 22:12:56 S-a afisat lista doctorilor
+02-06-2025 22:15:14 S-a adaugat doctorul b b
+02-06-2025 22:15:16 S-a afisat lista doctorilor
+02-06-2025 22:15:25 S-a cautat doctorul cu numele: a
+02-06-2025 22:15:31 S-a sters doctorul a a
+02-06-2025 22:15:36 S-a cautat doctorul cu numele: b
+02-06-2025 22:15:39 S-a sters doctorul b b
+02-06-2025 22:15:44 S-a cautat doctorul cu numele: a
+02-06-2025 22:15:47 S-a sters doctorul A A
+02-06-2025 22:15:50 S-a afisat lista doctorilor
+02-06-2025 22:16:07 S-a adaugat pacientul last first
+02-06-2025 22:16:11 S-a afisat lista pacientilor
+02-06-2025 22:16:15 S-a cautat pacientul last first cu CNP cnp
+02-06-2025 22:16:19 S-a cautat pacientul cu numele: last
+02-06-2025 22:16:29 S-a actualizat pacientul LAST FIRST
+02-06-2025 22:17:04 S-a cautat pacientul cu numele: last
+02-06-2025 22:17:06 S-a sters pacientul LAST FIRST
+02-06-2025 22:17:08 S-a afisat lista pacientilor
+02-06-2025 22:17:11 S-a cautat pacientul cu numele: asa
+02-06-2025 22:17:14 S-a cautat pacientul cu numele: ana
+02-06-2025 22:17:17 S-a cautat pacientul cu numele: ana
+02-06-2025 22:17:18 S-a afisat istoricul pacientului Pop Ana
+02-06-2025 22:17:43 S-a adaugat doctorul last first
+02-06-2025 22:17:46 S-a afisat lista doctorilor
+02-06-2025 22:17:53 S-a afisat lista pacientilor
+02-06-2025 22:18:04 S-a cautat doctorul last first cu CNP cnp
+02-06-2025 22:18:09 S-a cautat doctorul cu numele: last
+02-06-2025 22:18:19 S-a actualizat doctorul LAST FIRST
+02-06-2025 22:18:27 S-a cautat doctorul cu numele: last
+02-06-2025 22:18:28 S-a sters doctorul LAST FIRST
+02-06-2025 22:18:30 S-a afisat lista doctorilor
+02-06-2025 22:18:40 S-a cautat pacientul cu numele: a
+02-06-2025 22:18:42 S-a cautat doctorul cu numele: a
+02-06-2025 22:18:51 S-a programat pacientul Pop Ana la doctorul Mihail Andrei la data 2025-10-10T08:00
+02-06-2025 22:19:15 S-a cautat pacientul cu numele: a
+02-06-2025 22:19:19 S-a afisat lista doctorilor
+02-06-2025 22:19:29 S-a programat pacientul Pop Ana la doctorul Cristescu Mihaela la data 2025-10-10T14:00
+02-06-2025 22:19:36 S-a cautat pacientul cu numele: a
+02-06-2025 22:19:39 S-a cautat doctorul cu numele: a
+02-06-2025 22:19:43 S-a afisat programul doctorului Mihail Andrei pentru data 2025-10-10
+02-06-2025 22:19:54 S-a reprogramat pacientul Pop Ana la doctorul Mihail Andrei de la data 2025-10-10T08:00 la data 2025-10-10T15:00
+02-06-2025 22:20:20 S-a cautat pacientul cu numele: a
+02-06-2025 22:20:22 S-a cautat doctorul cu numele: a
+02-06-2025 22:20:26 S-a afisat programul doctorului Mihail Andrei pentru data 2025-12-12
+02-06-2025 22:20:28 S-a anulat programarea pacientului Pop Ana la doctorul Mihail Andrei la data 2025-12-12T15:00
+02-06-2025 22:20:47 S-a cautat doctorul cu numele: a
+02-06-2025 22:20:50 S-a afisat programul doctorului Mihail Andrei pentru data 2025-12-12

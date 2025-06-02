@@ -1,3 +1,5 @@
+package Models;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,9 @@ public class Doctor extends Person implements Comparable<Doctor>{
         int cmp = this.getName().compareToIgnoreCase(other.getName());
         if (cmp == 0) {
             cmp = this.getPrenume().compareToIgnoreCase(other.getPrenume());
+        }
+        if (cmp == 0) {
+            cmp = this.getCNP().compareTo(other.getCNP());
         }
         return cmp;
     }

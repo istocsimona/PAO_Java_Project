@@ -1,3 +1,5 @@
+package Models;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class Prescription {
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return "Prescription{" +
+        return "Models.Prescription{" +
                 "pills=" + pills +
                 ", issueDate=" + issueDate.format(formatter) +
                 '}';
