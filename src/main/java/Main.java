@@ -2,8 +2,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors; 
+
 
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
@@ -56,18 +59,21 @@ public class Main {
                         deleteDoctor();
                         break;
                     case "13":
-                        makeAppointment();
+                        makeAppointmentByName();
                         break;
                     case "14":
-                        rescheduleAppointment();
+                        makeAppointmentBySpecialty();
                         break;
                     case "15":
-                        cancelAppointment();
+                        rescheduleAppointment();
                         break;
                     case "16":
-                        viewDoctorSchedule();
+                        cancelAppointment();
                         break;
                     case "17":
+                        viewDoctorSchedule();
+                        break;
+                    case "18":
                         markAppointmentAsDone();
                         break;
                     case "0":
@@ -104,11 +110,12 @@ public class Main {
         System.out.println("10. Find doctor by CNP");
         System.out.println("11. Update doctor information");
         System.out.println("12. Delete doctor");
-        System.out.println("13. Make an appointment");
-        System.out.println("14. Reschedule an appointment");
-        System.out.println("15. Cancel an appointment");
-        System.out.println("16. View doctor's daily schedule");
-        System.out.println("17. Mark appointment as done (add diagnosis and prescription)");
+        System.out.println("13. Make an appointment with a doctor");
+        System.out.println("14. Make appointment with a doctor (by specialty)");
+        System.out.println("15. Reschedule an appointment");
+        System.out.println("16. Cancel an appointment");
+        System.out.println("17. View doctor's daily schedule");
+        System.out.println("18. Mark appointment as done (add diagnosis and prescription)");
         System.out.println("0. Exit");
         System.out.println("==========================================");
     }
@@ -394,7 +401,7 @@ public class Main {
     }
 
     // Appointment operations
-    private static void makeAppointment() {
+    private static void makeAppointmentByName() {
         System.out.println("\n----- Make Appointment -----");
 
         Patient patient = selectPatientByName();
@@ -456,6 +463,98 @@ public class Main {
             System.out.println(e.getMessage());
         }
     }
+
+    private static void makeAppointmentBySpecialty() {
+        System.out.println("\n----- Make Appointment by Doctor Specialty -----");
+
+        Patient patient = selectPatientByName();
+        if (patient == null) {
+            System.out.println("No patient selected.");
+            return;
+        }
+
+        System.out.print("Enter doctor specialty: ");
+        String specialty = scanner.nextLine();
+
+        // Caută doctorii cu specializarea respectivă
+        List<Doctor> allDoctors = service.getAllDoctorsSorted().stream().collect(Collectors.toList());
+        List<Doctor> filteredDoctors = new ArrayList<>();
+        for (Doctor doctor : allDoctors) {
+            if (doctor.getSpecialty() != null && doctor.getSpecialty().equalsIgnoreCase(specialty)) {
+                filteredDoctors.add(doctor);
+            }
+        }
+
+        if (filteredDoctors.isEmpty()) {
+            System.out.println("No doctors found with specialty: " + specialty);
+            return;
+        }
+
+        System.out.println("Doctors with specialty '" + specialty + "':");
+        for (int i = 0; i < filteredDoctors.size(); i++) {
+            System.out.println((i + 1) + ". " + filteredDoctors.get(i));
+        }
+        System.out.print("Choose a doctor (number): ");
+        int docChoice;
+        try {
+            docChoice = Integer.parseInt(scanner.nextLine());
+            if (docChoice < 1 || docChoice > filteredDoctors.size()) {
+                System.out.println("Invalid choice.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input.");
+            return;
+        }
+        Doctor doctor = filteredDoctors.get(docChoice - 1);
+
+        // Restul fluxului este identic cu makeAppointmentByName
+        System.out.print("Enter appointment date (yyyy-MM-dd): ");
+        String dateStr = scanner.nextLine();
+        LocalDate date;
+        try {
+            date = LocalDate.parse(dateStr, dateFormatter);
+        } catch (Exception e) {
+            System.out.println("Invalid date format.");
+            return;
+        }
+
+        List<LocalDateTime> availableHours = service.getAvailableHoursForDoctor(doctor.getCNP(), date);
+        if (availableHours.isEmpty()) {
+            System.out.println("No available hours for this doctor on this date.");
+            return;
+        }
+        System.out.println("Available hours:");
+        for (int i = 0; i < availableHours.size(); i++) {
+            System.out.println((i + 1) + ". " + availableHours.get(i).toLocalTime());
+        }
+        System.out.print("Choose an hour (number): ");
+        int hourChoice;
+        try {
+            hourChoice = Integer.parseInt(scanner.nextLine());
+            if (hourChoice < 1 || hourChoice > availableHours.size()) {
+                System.out.println("Invalid choice.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input.");
+            return;
+        }
+        LocalDateTime dateTime = availableHours.get(hourChoice - 1);
+
+        try {
+            Appointment appointment = service.makeAppointment(patient.getCNP(), doctor.getCNP(), dateTime);
+            if (appointment != null) {
+                System.out.println("Appointment created successfully: " + appointment);
+            } else {
+                System.out.println("Failed to create appointment. Doctor may not be available at this time.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
     private static void rescheduleAppointment() {
         System.out.println("\n----- Reschedule Appointment -----");
 

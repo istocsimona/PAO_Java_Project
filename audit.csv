@@ -129,3 +129,60 @@
 02-06-2025 15:00:00 S-a programat pacientul Pop Ana la doctorul Cristescu Mihaela la data 2025-12-12T09:00
 02-06-2025 15:00:08 S-a cautat doctorul cu numele: a
 02-06-2025 15:00:13 S-a afisat programul doctorului Cristescu Mihaela pentru data 2025-12-12
+02-06-2025 15:46:33 S-a afisat lista pacientilor
+02-06-2025 15:46:41 S-a afisat lista doctorilor
+02-06-2025 15:46:56 S-a cautat pacientul cu numele: neurology
+02-06-2025 15:47:07 S-a cautat pacientul cu numele: p
+02-06-2025 15:47:13 S-a afisat lista doctorilor
+02-06-2025 15:47:21 S-a programat pacientul Pop Ana la doctorul Mihail Andrei la data 2025-12-12T08:00
+02-06-2025 15:52:57 S-a cautat pacientul cu numele: a
+02-06-2025 15:52:59 S-a cautat doctorul cu numele: a
+02-06-2025 15:53:03 S-a afisat programul doctorului Cristescu Mihaela pentru data 2025-12-12
+02-06-2025 15:53:06 S-a anulat programarea pacientului Pop Ana la doctorul Cristescu Mihaela la data 2025-12-12T09:00
+02-06-2025 15:57:19 S-a adaugat pacientul name name
+02-06-2025 15:57:23 S-a afisat lista pacientilor
+02-06-2025 15:57:27 S-a cautat pacientul name name cu CNP cnp
+02-06-2025 15:57:34 S-a cautat pacientul cu numele: name
+02-06-2025 15:57:49 S-a actualizat pacientul NAME NAME
+02-06-2025 15:57:53 S-a afisat lista pacientilor
+02-06-2025 15:58:00 S-a cautat pacientul cu numele: name
+02-06-2025 15:58:03 S-a sters pacientul NAME NAME
+02-06-2025 15:58:05 S-a afisat lista pacientilor
+02-06-2025 15:58:14 S-a cautat pacientul cu numele: pop
+02-06-2025 15:58:20 S-a cautat pacientul cu numele: pop
+02-06-2025 15:58:21 S-a afisat istoricul pacientului Pop Ana
+02-06-2025 15:59:13 S-a adaugat doctorul name name
+02-06-2025 15:59:19 S-a afisat lista doctorilor
+02-06-2025 15:59:24 S-a cautat doctorul name name cu CNP cnp
+02-06-2025 15:59:27 S-a cautat doctorul cu numele: name
+02-06-2025 15:59:30 S-a actualizat doctorul name name
+02-06-2025 15:59:34 S-a cautat doctorul cu numele: name
+02-06-2025 15:59:36 S-a sters doctorul name name
+02-06-2025 15:59:40 S-a afisat lista doctorilor
+02-06-2025 15:59:46 S-a cautat pacientul cu numele: a
+02-06-2025 15:59:51 S-a cautat doctorul cu numele: a
+02-06-2025 15:59:58 S-a programat pacientul Panait Petre la doctorul Mihail Andrei la data 2025-12-12T09:00
+02-06-2025 16:00:08 S-a cautat doctorul cu numele: mihail
+02-06-2025 16:00:13 S-a afisat programul doctorului Mihail Andrei pentru data 2025-12-12
+02-06-2025 16:00:28 S-a cautat pacientul cu numele: pop
+02-06-2025 16:00:41 S-a afisat lista doctorilor
+02-06-2025 16:00:48 S-a cautat pacientul cu numele: pop
+02-06-2025 16:00:51 S-a afisat lista doctorilor
+02-06-2025 16:00:58 S-a programat pacientul Pop Ana la doctorul Cristescu Mihaela la data 2025-12-12T09:00
+02-06-2025 16:01:13 S-a cautat pacientul cu numele: pop
+02-06-2025 16:01:21 S-a cautat pacientul cu numele: pop
+02-06-2025 16:01:29 S-a cautat doctorul cu numele: cris
+02-06-2025 16:01:34 S-a afisat programul doctorului Cristescu Mihaela pentru data 2025-12-12
+02-06-2025 16:02:02 S-a reprogramat pacientul Pop Ana la doctorul Cristescu Mihaela de la data 2025-12-12T09:00 la data 2025-12-13T08:00
+02-06-2025 16:02:09 S-a cautat pacientul cu numele: pop
+02-06-2025 16:02:10 S-a cautat doctorul cu numele: mi
+02-06-2025 16:02:17 S-a afisat programul doctorului Cristescu Mihaela pentru data 2025-12-13
+02-06-2025 16:02:19 S-a anulat programarea pacientului Pop Ana la doctorul Cristescu Mihaela la data 2025-12-13T08:00
+02-06-2025 16:02:24 S-a cautat doctorul cu numele: a
+02-06-2025 16:02:28 S-a afisat programul doctorului Mihail Andrei pentru data 2025-12-12
+02-06-2025 16:02:40 S-a cautat pacientul cu numele: a
+02-06-2025 16:02:43 S-a cautat doctorul cu numele: a
+02-06-2025 16:02:46 S-a afisat programul doctorului Mihail Andrei pentru data 2025-12-12
+02-06-2025 16:02:51 S-a marcat ca efectuata programarea cu diagnostic si reteta pentru pacientul cu CNP 6837234278673 la doctorul cu CNP 1234567891234 la data 2025-12-12T08:00
+02-06-2025 16:03:00 S-a cautat pacientul cu numele: a
+02-06-2025 16:03:01 S-a afisat istoricul pacientului Pop Ana
