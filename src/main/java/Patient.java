@@ -25,12 +25,9 @@ public class Patient extends Person {
 
     @Override
     public String toString() {
-        return "Patient{" +
-                "name='" + name + '\'' +
-                ", prenume='" + prenume + '\'' +
-                ", CNP='" + CNP + '\'' +
-                ", address='" + address + '\'' +
-                ", bloodGroup='" + bloodGroup + '\'' +
-                '}';
+        return  name + " " + prenume + ", " +
+                "CNP= " + CNP + ", " +
+                "address= " + address + ", " +
+                "bloodGroup= " + bloodGroup;
     }
 }

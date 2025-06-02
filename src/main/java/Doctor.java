@@ -44,11 +44,8 @@ public class Doctor extends Person implements Comparable<Doctor>{
 
     @Override
     public String toString() {
-        return "Doctor{" +
-                "name='" + name + '\'' +
-                ", prenume='" + prenume + '\'' +
-                ", CNP='" + CNP + '\'' +
-                ", specialty='" + specialty + '\'' +
-                '}';
+        return  name + " " + prenume + ", " +
+                "CNP= " + CNP + ", " +
+                "specialy= " + specialty;
     }
 }

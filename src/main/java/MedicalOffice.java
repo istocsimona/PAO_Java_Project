@@ -215,6 +215,15 @@ public class MedicalOffice {
     }
 
     public void deletePatient(String cnp) {
+        // First, delete all appointments for this patient
+        String deleteAppointmentsSql = "DELETE FROM appointment WHERE patient_cnp=?";
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(deleteAppointmentsSql)) {
+            pstmt.setString(1, cnp);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         String sql = "DELETE FROM patient WHERE cnp=?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -311,6 +320,16 @@ public class MedicalOffice {
     }
 
     public void deleteDoctor(String cnp) {
+
+        // First, delete all appointments for this doctor
+        String deleteAppointmentsSql = "DELETE FROM appointment WHERE doctor_cnp=?";
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(deleteAppointmentsSql)) {
+            pstmt.setString(1, cnp);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         String sql = "DELETE FROM doctor WHERE cnp=?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

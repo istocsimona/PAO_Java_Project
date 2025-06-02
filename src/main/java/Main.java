@@ -155,6 +155,7 @@ public class Main {
         for (Patient patient : patients) {
             System.out.println(patient);
         }
+        
     }
 
     private static void findPatientByCNP() {
